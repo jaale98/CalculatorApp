@@ -157,3 +157,36 @@ if (backspaceButton) {
         }
     });
 }
+
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+
+    if ((key >= '0' && key <= '9') || key === '.') {
+        const digitBtn = Array.from(document.querySelectorAll('.keys button'))
+            .find(btn => btn.textContent === key);
+        if (digitBtn) digitBtn.click();
+        return;
+    }
+
+    if (['+', '-', '*', '/'].includes(key)) {
+        const opBtn = Array.from(document.querySelectorAll('.keys button.operator'))
+            .find(btn => btn.textContent === key);
+        if (opBtn) opBtn.click();
+        return;
+    }
+
+    if (key === 'Enter' || key === '=') {
+        equalButton.click();
+        return;
+    }
+
+    if (key === 'Backspace') {
+        backspaceButton.click();
+        return;
+    }
+
+    if (key === 'Escape' || key.toLowerCase() === 'c') {
+        clearButton.click();
+        return;
+    }
+});
