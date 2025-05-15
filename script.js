@@ -37,6 +37,7 @@ let firstOperand = "";
 let currentOperator = ""; 
 let secondOperand = ""; 
 let resultDisplayed = false;
+let expression = ""; // holds the full expression for display
 
 const display = document.querySelector('.display');
 
@@ -72,14 +73,15 @@ digitButtons.forEach(button => {
             currentOperator = "";
             secondOperand = "";
             resultDisplayed = false;
+            expression = "";
         }
         if (currentOperator === "") {
             firstOperand += digit;
-            updateDisplay(firstOperand);
         } else {
             secondOperand += digit;
-            updateDisplay(secondOperand);
         }
+        expression += digit;
+        updateDisplay(expression);
     });
 });
 
@@ -88,6 +90,7 @@ operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (resultDisplayed) {
             resultDisplayed = false;
+            expression = firstOperand;
         }
         if (firstOperand !== "") {
             if (secondOperand !== "") {
@@ -99,9 +102,11 @@ operatorButtons.forEach(button => {
                 const formatted = formatResult(result);
                 firstOperand = formatted;
                 secondOperand = "";
-                updateDisplay(formatted);
+                expression = formatted;
             }
             currentOperator = button.textContent;
+            expression += ` ${currentOperator} `;
+            updateDisplay(expression);
         }
     });
 });
@@ -113,6 +118,7 @@ equalButton.addEventListener('click', () => {
         const b = parseFloat(secondOperand);
         const result = operate(currentOperator, a, b);
         const formatted = formatResult(result);
+        expression = formatted;
         updateDisplay(formatted);
         firstOperand = formatted;
         currentOperator = "";
@@ -126,6 +132,7 @@ clearButton.addEventListener('click', () => {
     firstOperand = "";
     currentOperator = "";
     secondOperand = "";
+    expression = "";
     updateDisplay("");
 })
 
@@ -137,23 +144,25 @@ if (backspaceButton) {
             currentOperator = "";
             secondOperand = "";
             resultDisplayed = false;
-            updateDisplay("");
+            expression = "";
+            updateDisplay(expression);
             return;
         }
 
         if (currentOperator !== "" && secondOperand !== "") {
             secondOperand = secondOperand.slice(0, -1);
-            updateDisplay(secondOperand);
+            expression = expression.slice(0, -1);
+            updateDisplay(expression);
         }
-
         else if (currentOperator !== "" && secondOperand === "") {
             currentOperator = "";
-            updateDisplay(firstOperand);
+            expression = expression.slice(0, -1);
+            updateDisplay(expression);
         }
-
         else {
             firstOperand = firstOperand.slice(0, -1);
-            updateDisplay(firstOperand);
+            expression = expression.slice(0, -1);
+            updateDisplay(expression);
         }
     });
 }
