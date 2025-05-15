@@ -33,8 +33,11 @@
       background: #d0d0d0;
     }
     button.clear {
-      grid-column: span 2;
-      background: #f99;
+       background: #f99;
+    }
+
+    button.backspace {
+       background: #f99;
     }
     button.equal {
       grid-column: span 2;
